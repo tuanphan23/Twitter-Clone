@@ -48,7 +48,7 @@ function Signup() {
   });
 
   return (
-    <div>
+    <div className="container">
       <img
         src={TwitterLogo}
         alt="logo"
@@ -89,7 +89,7 @@ function Signup() {
       </Formik>
       <div className="register">
         <h4>Already have an account?</h4>
-        <Link to="/login">Log In</Link>
+        <Link to="/login">Log in</Link>
       </div>
     </div>
   );

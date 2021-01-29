@@ -38,7 +38,7 @@ function Login() {
   });
 
   return (
-    <div>
+    <div className="container">
       <img
         src={TwitterLogo}
         alt="logo"
@@ -71,7 +71,7 @@ function Login() {
       </Formik>
       <div className="register">
         <h4>Don't have an account?</h4>
-        <Link to="/signup">Sign Up</Link>
+        <Link to="/signup">Sign up</Link>
       </div>
     </div>
   );
