@@ -3,7 +3,6 @@ import { gql, useMutation } from "@apollo/client";
 import { ErrorMessage, Field, Form, Formik, yupToFormErrors } from "formik";
 import * as Yup from "yup";
 import { Link, useHistory } from "react-router-dom";
-import { validateSchema } from "graphql";
 import TwitterLogo from "../styles/assets/twitter-logo.png";
 
 const LOGIN_MUTATION = gql`
