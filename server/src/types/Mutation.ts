@@ -54,49 +54,94 @@ export const Mutation = mutationType({
       },
     })
 
-    t.field('createDraft', {
-      type: 'Post',
-      args: {
-        title: nonNull(stringArg()),
-        content: stringArg(),
-      },
-      resolve: (parent, { title, content }, ctx) => {
-        const userId = getUserId(ctx)
-        if (!userId) throw new Error('Could not authenticate user.')
-        return ctx.prisma.post.create({
-          data: {
-            title,
-            content,
-            published: false,
-            author: { connect: { id: Number(userId) } },
-          },
-        })
-      },
+    t.field("createProfile", {
+			type: "Profile",
+			args: {
+				bio: stringArg(),
+				location: stringArg(),
+				website: stringArg(),
+				avatar: stringArg()
+			},
+			resolve: (parent, args, ctx) => {
+				const userId = getUserId(ctx)
+				if (!userId) throw new Error("Could not authenticate user.")
+				return ctx.prisma.profile.create({
+					data: {
+						...args,
+						User: { connect: { id: Number(userId) } }
+					}
+				})
+			}
     })
+    
+    t.field("updateProfile", {
+			type: "Profile",
+			args: {
+				id: intArg(),
+				bio: stringArg(),
+				location: stringArg(),
+				website: stringArg(),
+				avatar: stringArg()
+			},
+			resolve: (parent, { id, ...args }, ctx) => {
+				const userId = getUserId(ctx)
+				if (!userId) throw new Error("Could not authenticate user.")
 
-    t.nullable.field('deletePost', {
-      type: 'Post',
-      args: { id: nonNull(intArg()) },
-      resolve: (parent, { id }, ctx) => {
-        return ctx.prisma.post.delete({
-          where: {
-            id,
-          },
-        })
-      },
-    })
+				return ctx.prisma.profile.update({
+					data: {
+						...args
+					},
+					where: {
+						id: Number(id)
+					}
+				})
+			}
+		})
 
-    t.nullable.field('publish', {
-      type: 'Post',
-      args: {
-        id: nonNull(intArg()),
-      },
-      resolve: (parent, { id }, ctx) => {
-        return ctx.prisma.post.update({
-          where: { id },
-          data: { published: true },
-        })
-      },
-    })
+
+    // t.field('createDraft', {
+    //   type: 'Post',
+    //   args: {
+    //     title: nonNull(stringArg()),
+    //     content: stringArg(),
+    //   },
+    //   resolve: (parent, { title, content }, ctx) => {
+    //     const userId = getUserId(ctx)
+    //     if (!userId) throw new Error('Could not authenticate user.')
+    //     return ctx.prisma.post.create({
+    //       data: {
+    //         title,
+    //         content,
+    //         published: false,
+    //         author: { connect: { id: Number(userId) } },
+    //       },
+    //     })
+    //   },
+    // })
+
+    // t.nullable.field('deletePost', {
+    //   type: 'Post',
+    //   args: { id: nonNull(intArg()) },
+    //   resolve: (parent, { id }, ctx) => {
+    //     return ctx.prisma.post.delete({
+    //       where: {
+    //         id,
+    //       },
+    //     })
+    //   },
+    // })
+
+    // t.nullable.field('publish', {
+    //   type: 'Post',
+    //   args: {
+    //     id: nonNull(intArg()),
+    //   },
+    //   resolve: (parent, { id }, ctx) => {
+    //     return ctx.prisma.post.update({
+    //       where: { id },
+    //       data: { published: true },
+    //     })
+    //   },
+    // })
   },
 })

@@ -1,5 +1,6 @@
 export * from './AuthPayload'
 export * from './Mutation'
-export * from './Post'
+export * from './tweet'
+export * from './Profile'
 export * from './Query'
 export * from './User'
