@@ -66,7 +66,7 @@ function Profile() {
               <p>
                 <i className="fas fa-link"> </i>{" "}
                 <Link
-                  to={{ pathname: `http://${data.me.Profile.website}` }}
+                  to={{ pathname: data.me.Profile.website }}
                   target="_blank"
                 >
                   {data.me.Profile.website}

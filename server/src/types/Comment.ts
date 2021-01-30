@@ -1,13 +1,13 @@
 import { objectType } from 'nexus'
 
-export const Tweet = objectType({
-	name: "Tweet",
+export const Comment = objectType({
+	name: "Comment",
 	definition(t) {
 		t.model.id()
 		t.model.content()
-		t.model.author()
 		t.model.createdAt()
-		t.model.likes()
-		t.model.comments()
+		t.model.User()
+		t.model.Comment()
+		t.model.commentId()
 	}
 })

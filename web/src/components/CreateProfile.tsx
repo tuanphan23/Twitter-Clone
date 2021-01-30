@@ -1,5 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { ME_QUERY } from "../pages/Profile";
 import { ErrorMessage, Field, Form, Formik, yupToFormErrors } from "formik";
 import Modal from "react-modal";
@@ -30,6 +30,9 @@ interface ProfileValues {
 }
 
 function CreateProfile() {
+  const inputFile = useRef<HTMLInputElement | null>(null);
+  const [image, setImage] = useState("");
+  const [imageLoading, setImageLoading] = useState(false);
   const [createProfile] = useMutation(CREATE_PROFILE_MUTATION, {
     refetchQueries: [{ query: ME_QUERY }],
   });
@@ -48,6 +51,23 @@ function CreateProfile() {
   const closeModal = () => {
     setIsOpen(false);
   };
+
+  const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    setImageLoading(true);
+    const data = new FormData();
+    data.append("file", files[0]);
+    data.append("upload_preset", "twitter-clone");
+    const res = await fetch(process.env.REACT_APP_CLOUDINARY_ENDPOINT, {
+      method: "POST",
+      body: data,
+    });
+    const file = await res.json();
+    setImage(file.secure_url);
+    console.log(file.secure_url);
+    setImageLoading(false);
+  };
+
   return (
     <div>
       <button onClick={openModal} className="edit-button">
@@ -59,13 +79,45 @@ function CreateProfile() {
         contentLabel="Modal"
         style={customStyles}
       >
+        <input
+          type="file"
+          name="file"
+          placeholder="Upload an image"
+          onChange={uploadImage}
+          ref={inputFile}
+          style={{ display: "none" }}
+        />
+        {imageLoading ? (
+          <h3>Loading...</h3>
+        ) : (
+          <>
+            {image ? (
+              <span onClick={() => inputFile.current.click()}>
+                <img
+                  src={image}
+                  style={{ width: "150px", borderRadius: "50%" }}
+                  alt="avatar"
+                  onClick={() => inputFile.current.click()}
+                />
+              </span>
+            ) : (
+              <span onClick={() => inputFile.current.click()}>
+                <i
+                  className="fa fa-user fa-5x"
+                  aria-hidden="true"
+                  onClick={() => inputFile.current.click()}
+                ></i>
+              </span>
+            )}
+          </>
+        )}
         <Formik
           initialValues={initialValues}
           //validationSchema={validationSchema}
           onSubmit={async (values, { setSubmitting }) => {
             setSubmitting(true);
             await createProfile({
-              variables: values,
+              variables: { ...values, avatar: image },
             });
             setSubmitting(false);
             setIsOpen(false);
