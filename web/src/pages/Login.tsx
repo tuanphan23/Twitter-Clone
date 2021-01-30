@@ -56,7 +56,7 @@ function Login() {
           });
           localStorage.setItem("token", response.data.login.token);
           setSubmitting(false);
-          history.push("/users");
+          history.push("/");
         }}
       >
         <Form>

@@ -1,7 +1,7 @@
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
 import { ME_QUERY } from "../pages/Profile";
-//import { TWEETS_QUERY } from "./AllTweets";
+import { TWEETS_QUERY } from "./AllTweets";
 
 const LIKE_TWEET_MUTATION = gql`
   mutation likeTweet($id: Int) {
@@ -16,20 +16,19 @@ interface Props {
 }
 
 export default function LikeTweet({ id }: Props) {
-  // const [likeTweet] = useMutation(LIKE_TWEET_MUTATION, {
-  //   refetchQueries: [{ query: TWEETS_QUERY }, { query: ME_QUERY }],
-  // });
+  const [likeTweet] = useMutation(LIKE_TWEET_MUTATION, {
+    refetchQueries: [{ query: TWEETS_QUERY }, { query: ME_QUERY }],
+  });
 
-  // const handleCreateLike = async () => {
-  //   await likeTweet({
-  //     variables: { id },
-  //   });
-  // };
+  const handleCreateLike = async () => {
+    await likeTweet({
+      variables: { id },
+    });
+  };
 
   return (
-    // <span onClick={handleCreateLike} style={{ marginRight: "5px" }}>
-    //   <i className="far fa-thumbs-up" aria-hidden="true" />
-    // </span>
-    <div>LikeTweet</div>
+    <span onClick={handleCreateLike} style={{ marginRight: "5px" }}>
+      <i className="far fa-thumbs-up" aria-hidden="true" />
+    </span>
   );
 }
