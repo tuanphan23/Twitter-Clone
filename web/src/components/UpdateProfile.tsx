@@ -1,11 +1,11 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
-import React, { useState } from "react";
-import { ME_QUERY } from "../pages/Profile";
-import { ErrorMessage, Field, Form, Formik, yupToFormErrors } from "formik";
+import { useMutation, useQuery } from "@apollo/client";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import gql from "graphql-tag";
+import React, { useRef, useState } from "react";
 import Modal from "react-modal";
+import { ME_QUERY } from "../pages/Profile";
 import { customStyles } from "../styles/CustomModalStyles";
-
-const UPDATE_PROFILE_MUTATION = gql`
+const UPDATE_PROFILE = gql`
   mutation updateProfile(
     $id: Int!
     $bio: String
@@ -24,6 +24,7 @@ const UPDATE_PROFILE_MUTATION = gql`
     }
   }
 `;
+
 interface ProfileValues {
   id: number;
   bio: string;
@@ -33,15 +34,19 @@ interface ProfileValues {
 }
 
 function UpdateProfile() {
+  const inputFile = useRef<HTMLInputElement | null>(null);
+  const [image, setImage] = useState("");
+  const [imageLoading, setImageLoading] = useState(false);
+
   const { loading, error, data } = useQuery(ME_QUERY);
-  const [updateProfile] = useMutation(UPDATE_PROFILE_MUTATION, {
+
+  const [updateProfile] = useMutation(UPDATE_PROFILE, {
     refetchQueries: [{ query: ME_QUERY }],
   });
   const [modalIsOpen, setIsOpen] = useState(false);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
-
   const initialValues: ProfileValues = {
     id: data.me.Profile.id,
     bio: data.me.Profile.bio,
@@ -49,6 +54,7 @@ function UpdateProfile() {
     website: data.me.Profile.website,
     avatar: data.me.Profile.avatar,
   };
+
   const openModal = () => {
     setIsOpen(true);
   };
@@ -56,6 +62,23 @@ function UpdateProfile() {
   const closeModal = () => {
     setIsOpen(false);
   };
+
+  const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    setImageLoading(true);
+    const data = new FormData();
+    data.append("file", files[0]);
+    data.append("upload_preset", "twitter-clone");
+    const res = await fetch(process.env.REACT_APP_CLOUDINARY_ENDPOINT, {
+      method: "POST",
+      body: data,
+    });
+    const file = await res.json();
+    setImage(file.secure_url);
+    console.log(file.secure_url);
+    setImageLoading(false);
+  };
+
   return (
     <div>
       <button onClick={openModal} className="edit-button">
@@ -67,14 +90,47 @@ function UpdateProfile() {
         contentLabel="Modal"
         style={customStyles}
       >
+        <input
+          type="file"
+          name="file"
+          placeholder="Upload an image"
+          onChange={uploadImage}
+          ref={inputFile}
+          style={{ display: "none" }}
+        />
+        {imageLoading ? (
+          <h3>Loading...</h3>
+        ) : (
+          <>
+            {image ? (
+              <span onClick={() => inputFile.current.click()}>
+                <img
+                  src={image}
+                  style={{ width: "150px", borderRadius: "50%" }}
+                  alt="avatar"
+                  onClick={() => inputFile.current.click()}
+                />
+              </span>
+            ) : (
+              <span onClick={() => inputFile.current.click()}>
+                <i
+                  className="fa fa-user fa-5x"
+                  aria-hidden="true"
+                  onClick={() => inputFile.current.click()}
+                ></i>
+              </span>
+            )}
+          </>
+        )}
         <Formik
           initialValues={initialValues}
-          //validationSchema={validationSchema}
+          // validationSchema={validationSchema}
           onSubmit={async (values, { setSubmitting }) => {
             setSubmitting(true);
             await updateProfile({
-              variables: values,
+              variables: { ...values, avatar: image },
             });
+
             setSubmitting(false);
             setIsOpen(false);
           }}
@@ -82,9 +138,10 @@ function UpdateProfile() {
           <Form>
             <Field name="bio" type="text" as="textarea" placeholder="Bio" />
             <ErrorMessage name="bio" component={"div"} />
-            <Field name="location" type="location" placeholder="Location" />
+
+            <Field name="location" type="text" placeholder="Location" />
             <ErrorMessage name="location" component={"div"} />
-            <Field name="website" type="website" placeholder="Website" />
+            <Field name="website" type="text" placeholder="Website" />
             <ErrorMessage name="website" component={"div"} />
 
             <button type="submit" className="login-button">

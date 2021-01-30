@@ -13,6 +13,7 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-router-dom": "^5.1.7",
     "apollo-link-context": "^1.0.20",
+    "crypto-js": "^4.0.0",
     "formik": "^2.2.6",
     "graphql": "^15.5.0",
     "react": "^17.0.1",
@@ -50,6 +51,7 @@
   },
   "devDependencies": {
     "@types/react-modal": "^3.10.6",
-    "@types/yup": "^0.29.11"
+    "@types/yup": "^0.29.11",
+    "dotenv": "^8.2.0"
   }
 }

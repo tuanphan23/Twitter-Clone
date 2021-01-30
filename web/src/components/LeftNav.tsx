@@ -7,7 +7,9 @@ function LeftNav() {
   return (
     <div>
       <Link to="/users">
-        <img src={favicon} alt="logo" style={{ width: "40px" }} />
+        <h2>
+          <img src={favicon} alt="logo" style={{ width: "50px" }} />
+        </h2>
       </Link>
       <Link to="/">
         <h2>

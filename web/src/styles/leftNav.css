@@ -36,7 +36,7 @@ h2 {
 h2:hover {
   /* color: ${(props) => props.theme.primary}; */
   background: #55abee29;
-  @media only screen and (max-width: 1200px) {
+  @media only screen and (max-width: fit-content(20em)) {
     /* color: ${(props) => props.theme.primary}; */
     background: transparent;
   }
