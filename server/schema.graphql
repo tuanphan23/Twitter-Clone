@@ -50,7 +50,10 @@ type Profile {
 }
 
 type Query {
-  me: User
+  me: User!
+  tweet(id: Int): Tweet!
+  tweets: [Tweet]
+  user(id: Int): User!
   users: [User]
 }
 
@@ -64,10 +67,10 @@ type Tweet {
 }
 
 type User {
-  LikedTweet(after: LikedTweetWhereUniqueInput, before: LikedTweetWhereUniqueInput, first: Int, last: Int): [LikedTweet!]!
   Profile: Profile
-  Tweet: [Tweet!]!
   email: String
   id: Int
+  likedTweet(after: LikedTweetWhereUniqueInput, before: LikedTweetWhereUniqueInput, first: Int, last: Int): [LikedTweet!]!
   name: String
+  tweets: [Tweet!]!
 }

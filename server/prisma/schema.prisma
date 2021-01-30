@@ -2,18 +2,19 @@ generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
+datasource postgresql {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
+model Tweet {
+  id        Int          @id @default(autoincrement())
+  createdAt DateTime     @default(now())
   content   String?
-  published Boolean @default(false)
-  author    User?   @relation(fields: [authorId], references: [id])
+  likes     LikedTweet[]
+  author    User?        @relation(fields: [authorId], references: [id])
   authorId  Int?
+  comments  Comment[]
 }
 
 model User {
@@ -21,11 +22,11 @@ model User {
   email      String       @unique
   password   String       @default("")
   name       String?
-  posts      Post[]
+  tweets     Tweet[]
   Profile    Profile?
-  Tweet      Tweet[]
-  LikedTweet LikedTweet[]
-  Comment    Comment[]
+  likedTweet LikedTweet[]
+  comments   Comment[]
+  Following  Following[]
 }
 
 model LikedTweet {
@@ -37,6 +38,15 @@ model LikedTweet {
   tweetId Int
 }
 
+model Following {
+  id       Int    @id @default(autoincrement())
+  name     String
+  avatar   String
+  followId Int
+  User     User?  @relation(fields: [userId], references: [id])
+  userId   Int?
+}
+
 model Profile {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
@@ -46,16 +56,6 @@ model Profile {
   avatar    String?
   userId    Int?     @unique
   User      User?    @relation(fields: [userId], references: [id])
-}
-
-model Tweet {
-  id        Int          @id @default(autoincrement())
-  createdAt DateTime     @default(now())
-  content   String?
-  likes     LikedTweet[]
-  author    User?        @relation(fields: [authorId], references: [id])
-  authorId  Int?
-  comments  Comment[]
 }
 
 model Comment {

@@ -14,6 +14,7 @@
     "@types/react-router-dom": "^5.1.7",
     "apollo-link-context": "^1.0.20",
     "crypto-js": "^4.0.0",
+    "date-fns": "^2.16.1",
     "formik": "^2.2.6",
     "graphql": "^15.5.0",
     "react": "^17.0.1",

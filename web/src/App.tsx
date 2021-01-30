@@ -14,6 +14,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import IsAuthenticated from "./components/IsAuthenticated";
 import Profile from "./pages/Profile";
+import Home from "./pages/Home";
 
 const httpLink = new HttpLink({ uri: "http://localhost:4000" });
 const authLink = setContext(async (req, { headers }) => {
@@ -48,8 +49,8 @@ function App() {
             <Login />
           </Route>
           <IsAuthenticated>
-            <Route path="/users">
-              <Users />
+            <Route exact path="/">
+              <Home />
             </Route>
             <Route path="/profile">
               <Profile />
