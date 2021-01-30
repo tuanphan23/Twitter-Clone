@@ -3,6 +3,7 @@ import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import CreateProfile from "../components/CreateProfile";
 import LeftNav from "../components/LeftNav";
+import PopularTweets from "../components/PopularTweets";
 import UpdateProfile from "../components/UpdateProfile";
 import "../styles/primary.css";
 import "../styles/profile.css";
@@ -87,8 +88,7 @@ function Profile() {
           {/* <LikedTweets tweets={data.me} /> */}
         </div>
         <div className="right">
-          Right
-          {/* <PopularTweets/> */}
+          <PopularTweets />
         </div>
       </div>
     </>

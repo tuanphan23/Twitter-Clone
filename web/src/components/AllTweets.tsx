@@ -68,9 +68,15 @@ export default function AllTweets() {
     };
   }
 
+  const getMostRecentTweets = data.tweets
+    .map((tweet: AllTweets) => tweet)
+    .sort(function (a: AllTweets, b: AllTweets) {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
+
   return (
     <div>
-      {data.tweets.map((tweet: AllTweets) => (
+      {getMostRecentTweets.map((tweet: AllTweets) => (
         <div className="tweet-container">
           <Link to={`/tweet/${tweet.id}`}>
             <div className="tweet-header">

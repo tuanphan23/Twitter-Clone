@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import AllTweets from "../components/AllTweets";
 import HomPageTweet from "../components/HomePageTweet";
 import LeftNav from "../components/LeftNav";
-//import PopularTweets from "../components/PopularTweets";
+import PopularTweets from "../components/PopularTweets";
 import "../styles/home.css";
 import "../styles/primary.css";
 
@@ -43,7 +43,9 @@ function Home() {
           <HomPageTweet />
           <AllTweets />
         </div>
-        <div className="right">{/* <PopularTweets /> */}</div>
+        <div className="right">
+          <PopularTweets />
+        </div>
       </div>
     </>
   );
