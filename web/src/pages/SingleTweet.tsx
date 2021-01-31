@@ -1,7 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import React from "react";
 import { useHistory, useParams } from "react-router-dom";
-//import CreateReply from "../components/CreateReply"
+import CreateReply from "../components/CreateReply";
 import LeftNav from "../components/LeftNav";
 import PopularTweets from "../components/PopularTweets";
 import "../styles/home.css";
@@ -120,8 +120,14 @@ function SingleTweet() {
                 />
                 <h5>{comment.User.name}</h5>
               </div>
-              <p>{comment.content}</p>
-              {/* <CreateReply name={comment.User.name} avatar={comment.User.Profile.avatar} id={data.tweet.id} comment={comment.content} commentId={comment.id}/> */}
+              <span>{comment.content}</span>
+              <CreateReply
+                name={comment.User.name}
+                avatar={comment.User.Profile.avatar}
+                id={data.tweet.id}
+                comment={comment.content}
+                commentId={comment.id}
+              />
             </>
           ))}
         </div>
