@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import { ME_QUERY } from "../pages/Profile";
 import { customStyles } from "../styles/CustomModalStyles";
 import "../styles/tweet.css";
+import { TWEETS_QUERY } from "./AllTweets";
 
 const CREATE_COMMENT_MUTATION = gql`
   mutation createComment($content: String!, $id: Int!) {
@@ -28,7 +29,7 @@ interface Props {
 
 export default function CreateComment({ tweet, avatar, name, id }: Props) {
   const [createComment] = useMutation(CREATE_COMMENT_MUTATION, {
-    refetchQueries: [{ query: ME_QUERY }],
+    refetchQueries: [{ query: ME_QUERY }, { query: TWEETS_QUERY }],
   });
 
   const [modalIsOpen, setIsOpen] = useState(false);

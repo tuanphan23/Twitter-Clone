@@ -80,11 +80,13 @@ export default function AllTweets() {
         <div className="tweet-container">
           <Link to={`/tweet/${tweet.id}`}>
             <div className="tweet-header">
-              <img
-                src={tweet.author.Profile.avatar}
-                style={{ width: "40px", borderRadius: "50%" }}
-                alt="avatar"
-              />
+              <Link to={`/user/${tweet.author.id}`}>
+                <img
+                  src={tweet.author.Profile.avatar}
+                  style={{ width: "50px", borderRadius: "50%" }}
+                  alt="avatar"
+                />
+              </Link>
               <Link to={`/user/${tweet.author.id}`}>
                 <h4 className="name">{tweet.author.name} </h4>
               </Link>
