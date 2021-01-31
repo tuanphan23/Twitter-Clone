@@ -6,7 +6,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ME_QUERY } from "../pages/Profile";
 import "../styles/allTweets.css";
-//import CreateComment from "./CreateComment"
+import CreateComment from "./CreateComment";
 import DeleteLike from "./DeleteLike";
 import LikeTweet from "./LikeTweet";
 
@@ -19,9 +19,9 @@ export const TWEETS_QUERY = gql`
       likes {
         id
       }
-      # comments {
-      #   id
-      # }
+      comments {
+        id
+      }
       author {
         id
         name
@@ -51,7 +51,7 @@ export default function AllTweets() {
     content: string;
     createdAt: Date;
     likes: [];
-    //comments: [];
+    comments: [];
     author: {
       id: number;
       name: string;
@@ -118,15 +118,15 @@ export default function AllTweets() {
                 {tweet.likes.length}
               </span>
             )}
-            {/* <span style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
-							<CreateComment
-								avatar={tweet.author.Profile.avatar}
-								name={tweet.author.name}
-								tweet={tweet.content}
-								id={tweet.id}
-							/>
-							{tweet.comments.length > 0 ? tweet.comments.length : null}
-						</span> */}
+            <span style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+              <CreateComment
+                avatar={tweet.author.Profile.avatar}
+                name={tweet.author.name}
+                tweet={tweet.content}
+                id={tweet.id}
+              />
+              {tweet.comments.length > 0 ? tweet.comments.length : null}
+            </span>
           </div>
         </div>
       ))}

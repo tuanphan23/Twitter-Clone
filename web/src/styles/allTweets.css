@@ -27,5 +27,5 @@ p {
   grid-template-columns: 1fr 1fr 10fr;
   margin-left: 10px;
   margin-bottom: 10px;
-  color: var(--main-color);
+  /* color: var(--main-color); */
 }

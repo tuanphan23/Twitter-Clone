@@ -2,15 +2,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 import favicon from "../styles/assets/twitter-logo.png";
 import "../styles/leftNav.css";
-import Logout from "./Logout";
+import Logout from "../components/Logout";
 import Tweet from "./Tweet";
 
 function LeftNav() {
   return (
-    <div>
+    <div className="left-nav">
       <Link to="/users">
         <h2>
-          <img src={favicon} alt="logo" style={{ width: "50px" }} />
+          <img src={favicon} alt="logo" style={{ width: "60px" }} />
         </h2>
       </Link>
       <Link to="/">

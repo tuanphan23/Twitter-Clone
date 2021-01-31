@@ -33,6 +33,7 @@ input LikedTweetWhereUniqueInput {
 }
 
 type Mutation {
+  createComment(content: String!, id: Int!): Comment
   createProfile(avatar: String, bio: String, location: String, website: String): Profile
   createTweet(content: String): Tweet
   deleteLike(id: Int!): LikedTweet
@@ -69,6 +70,7 @@ type Tweet {
 
 type User {
   Profile: Profile
+  comments(after: CommentWhereUniqueInput, before: CommentWhereUniqueInput, first: Int, last: Int): [Comment!]!
   email: String
   id: Int
   likedTweet(after: LikedTweetWhereUniqueInput, before: LikedTweetWhereUniqueInput, first: Int, last: Int): [LikedTweet!]!

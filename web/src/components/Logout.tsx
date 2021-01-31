@@ -29,7 +29,7 @@ export default function Logout() {
   };
 
   return (
-    <div className="logout">
+    <div style={{ position: "absolute", bottom: 0, top: 800 }}>
       <span onClick={openModal} style={{ flex: 1, flexDirection: "row" }}>
         <h4>
           <img

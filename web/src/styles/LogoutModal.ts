@@ -1,18 +1,18 @@
 export const logoutModalStyles = {
     content: {
-      top: "85%",
-      left: "20%",
+      top: "82%",
+      left: "10%",
       right: "auto",
       bottom: "auto",
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
       background: "#fff",
       borderRadius: "25px",
-      width: "15em",
+      width: "10em",
   
       minWidth: "5em",
       minHeight: "2em",
-      maxHeight: "3em",
+      maxHeight: "5em",
     },
     overlay: {
       background: "#9e9e9e69",

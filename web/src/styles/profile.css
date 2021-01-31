@@ -1,6 +1,6 @@
 .primary {
   display: grid;
-  grid-template-columns: 0.7fr 1.3fr 0.9fr;
+  grid-template-columns: 0.5fr 1.3fr 0.9fr;
   margin-right: 50px;
   margin-left: 50px;
   margin-bottom: 50px;
@@ -16,8 +16,8 @@
     } */
 .left {
   grid-column: 1 / 2;
-  /* margin-top: 20px; */
-  /* margin-left: 40px; */
+  /* margin-top: 80px; */
+  /* margin-left: 80px; */
   @media only screen and (max-width: 600px) {
     margin-left: 0;
     grid-column: 1;
@@ -47,4 +47,9 @@
 
 .drop-down {
   position: relative;
+}
+
+.left div {
+  position: sticky;
+  top: 0;
 }
