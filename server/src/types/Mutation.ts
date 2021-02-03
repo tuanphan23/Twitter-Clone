@@ -186,6 +186,41 @@ export const Mutation = mutationType({
 			}
 		})
 
+		t.field("follow", {
+			type: "Following",
+			args: {
+				name: nonNull(stringArg()),
+				followId: nonNull(intArg()),
+				avatar: stringArg()
+			},
+			resolve: (parent, { name, followId, avatar }, ctx) => {
+				const userId = getUserId(ctx)
+				if (!userId) throw new Error("Could not authenticate user.")
+				return ctx.prisma.following.create({
+					data: {
+						name,
+						avatar,
+						followId,
+						User: { connect: { id: Number(userId) } },
+					}
+				})
+			}
+		})
+
+		t.field("deleteFollow", {
+			type: "Following",
+			args: {
+				id: nonNull(intArg())
+			},
+			resolve: (parent, { id }, ctx) => {
+				const userId = getUserId(ctx)
+				if (!userId) throw new Error("Could not authenticate user.")
+				return ctx.prisma.following.delete({
+					where: { id: id }
+				})
+			}
+    })
+
     // t.field('createDraft', {
     //   type: 'Post',
     //   args: {

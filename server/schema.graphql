@@ -22,6 +22,18 @@ input CommentWhereUniqueInput {
 
 scalar DateTime
 
+type Following {
+  User: User
+  avatar: String
+  followId: Int
+  id: Int
+  name: String
+}
+
+input FollowingWhereUniqueInput {
+  id: Int
+}
+
 type LikedTweet {
   id: Int
   likedAt: DateTime
@@ -37,7 +49,9 @@ type Mutation {
   createProfile(avatar: String, bio: String, location: String, website: String): Profile
   createReply(commentId: Int, content: String!, id: Int!): Comment
   createTweet(content: String): Tweet
+  deleteFollow(id: Int!): Following
   deleteLike(id: Int!): LikedTweet
+  follow(avatar: String, followId: Int!, name: String!): Following
   likeTweet(id: Int): LikedTweet
   login(email: String!, password: String!): AuthPayload
   signup(email: String!, name: String, password: String!): AuthPayload
@@ -70,6 +84,7 @@ type Tweet {
 }
 
 type User {
+  Following(after: FollowingWhereUniqueInput, before: FollowingWhereUniqueInput, first: Int, last: Int): [Following!]!
   Profile: Profile
   comments(after: CommentWhereUniqueInput, before: CommentWhereUniqueInput, first: Int, last: Int): [Comment!]!
   email: String

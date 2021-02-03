@@ -4,6 +4,7 @@ import gql from "graphql-tag";
 import React, { useState } from "react";
 import Modal from "react-modal";
 import * as Yup from "yup";
+import { string } from "yup/lib/locale";
 import { ME_QUERY } from "../pages/Profile";
 import { TWEET_QUERY } from "../pages/SingleTweet";
 import { customStyles } from "../styles/CustomModalStyles";
@@ -113,6 +114,8 @@ export default function CreateReply({
           validationSchema={validationSchema}
           onSubmit={async (values, { setSubmitting }) => {
             setSubmitting(true);
+            // eslint-disable-next-line no-new-wrappers
+            var reply = new String("@");
             await createComment({
               variables: { ...values, id, commentId },
             });
