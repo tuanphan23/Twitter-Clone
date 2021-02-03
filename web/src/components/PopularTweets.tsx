@@ -22,6 +22,9 @@ export const POPULAR_TWEETS = gql`
       likes {
         id
       }
+      comments {
+        id
+      }
     }
   }
 `;
@@ -40,6 +43,7 @@ interface Tweet {
     id: number;
     length: number;
   };
+  comments: [];
 }
 
 export default function PopularTweets() {
@@ -81,6 +85,12 @@ export default function PopularTweets() {
                 <span>
                   <i className="far fa-thumbs-up" aria-hidden="true" />
                   {tweet.likes.length}
+                </span>
+              ) : null}
+              {tweet.comments.length > 0 ? (
+                <span style={{ marginLeft: 5 }}>
+                  <i className="far fa-comment" aria-hidden="true" />
+                  {tweet.comments.length}
                 </span>
               ) : null}
             </div>
