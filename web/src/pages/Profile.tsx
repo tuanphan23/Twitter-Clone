@@ -2,7 +2,9 @@ import { gql, useQuery } from "@apollo/client";
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import CreateProfile from "../components/CreateProfile";
+import Following from "../components/Following";
 import LeftNav from "../components/LeftNav";
+import LikedTweets from "../components/LikedTweet";
 import PopularTweets from "../components/PopularTweets";
 import UpdateProfile from "../components/UpdateProfile";
 import "../styles/primary.css";
@@ -23,6 +25,16 @@ export const ME_QUERY = gql`
         id
         tweet {
           id
+          content
+          createdAt
+          author {
+            id
+            name
+            Profile {
+              id
+              avatar
+            }
+          }
         }
       }
       Profile {
@@ -87,11 +99,11 @@ function Profile() {
               </p>
             ) : null}
             <div className="followers">
-              <p>200 following</p>
+              <Following />
               <p>384 followers</p>
             </div>
           </div>
-          {/* <LikedTweets tweets={data.me} /> */}
+          <LikedTweets tweets={data.me} />
         </div>
         <div className="right">
           <PopularTweets />

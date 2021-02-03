@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 import { format } from "date-fns";
 import gql from "graphql-tag";
 import React from "react";
+import { Link } from "react-router-dom";
 import "../styles/popularTweets.css";
 
 export const POPULAR_TWEETS = gql`
@@ -57,32 +58,34 @@ export default function PopularTweets() {
     <div className="popular-tweets">
       <h3 className="trending">Trending</h3>
       {getPopularTweets.map((tweet: Tweet) => (
-        <div className="popular-tweet-container" key={tweet.id}>
-          <div className="date-title">
-            <div className="title-logo">
-              <img
-                src={tweet.author.Profile.avatar}
-                style={{ width: "40px", borderRadius: "50%" }}
-                alt="avatar"
-              />
-              <span>
-                <h5>{tweet.author.name}</h5>
+        <Link to={`/tweet/${tweet.id}`}>
+          <div className="popular-tweet-container" key={tweet.id}>
+            <div className="date-title">
+              <div className="title-logo">
+                <img
+                  src={tweet.author.Profile.avatar}
+                  style={{ width: "40px", borderRadius: "50%" }}
+                  alt="avatar"
+                />
+                <span>
+                  <h5>{tweet.author.name}</h5>
+                </span>
+              </div>
+              <span className="date">
+                {format(new Date(tweet.createdAt), "MM/dd/yy")}
               </span>
             </div>
-            <span className="date">
-              {format(new Date(tweet.createdAt), "MM/dd/yy")}
-            </span>
+            <div className="tweet-content">{tweet.content}</div>
+            <div className="tweet-likes">
+              {tweet.likes.length > 0 ? (
+                <span>
+                  <i className="far fa-thumbs-up" aria-hidden="true" />
+                  {tweet.likes.length}
+                </span>
+              ) : null}
+            </div>
           </div>
-          <div className="tweet-content">{tweet.content}</div>
-          <div className="tweet-likes">
-            {tweet.likes.length > 0 ? (
-              <span>
-                <i className="far fa-thumbs-up" aria-hidden="true" />
-                {tweet.likes.length}
-              </span>
-            ) : null}
-          </div>
-        </div>
+        </Link>
       ))}
     </div>
   );
